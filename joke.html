@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Pickup Line / Joke</title>
+</head>
+<body>
+    <h1>Get a Random Pickup Line or Joke!</h1>
+    <button id="jokeBtn">Get Pickup Line/Joke</button>
+    <p id="jokeDisplay"></p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const jokeBtn = document.getElementById('jokeBtn');
+            const jokeDisplay = document.getElementById('jokeDisplay');
+
+            jokeBtn.addEventListener('click', function() {
+                // Fetching a random joke or one-liner from JokeAPI
+                fetch('https://v2.jokeapi.dev/joke/Any')
+                    .then(response => response.json()) // Parsing the JSON response
+                    .then(data => {
+                        // Check if it's a single or two-part joke
+                        if (data.type === "single") {
+                            jokeDisplay.textContent = data.joke;  // Single-line joke or pickup line
+                        } else {
+                            jokeDisplay.textContent = `${data.setup} - ${data.delivery}`;  // Two-part joke
+                        }
+                    })
+                    .catch(error => {
+                        // Handling errors
+                        jokeDisplay.textContent = 'Oops! Something went wrong. Please try again later.';
+                        console.error('Error fetching joke:', error);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
